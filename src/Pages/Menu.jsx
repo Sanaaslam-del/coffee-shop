@@ -1,6 +1,12 @@
+
+
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { CartContext } from "../context/CartContext";
 
 function Menu() {
+  const { addToCart } = useContext(CartContext);
+
   return (
     <div className="min-h-screen bg-[#FFF8E7] text-[#3B2418]">
 
@@ -76,6 +82,7 @@ function Menu() {
               name="Cappuccino"
               description="Rich espresso with steamed milk and creamy foam."
               price="$3.50"
+              onAddToCart={addToCart}
             />
 
             <MenuCard
@@ -83,6 +90,7 @@ function Menu() {
               name="Iced Coffee"
               description="Refreshing chilled coffee served over ice."
               price="$2.80"
+              onAddToCart={addToCart}
             />
 
             <MenuCard
@@ -90,6 +98,7 @@ function Menu() {
               name="Mocha"
               description="Smooth espresso blended with chocolate and milk."
               price="$3.60"
+              onAddToCart={addToCart}
             />
 
             <MenuCard
@@ -97,6 +106,7 @@ function Menu() {
               name="Espresso"
               description="Strong and rich classic Italian espresso."
               price="$2.20"
+              onAddToCart={addToCart}
             />
 
             <MenuCard
@@ -104,6 +114,7 @@ function Menu() {
               name="Cafe Latte"
               description="Smooth espresso combined with steamed milk."
               price="$3.20"
+              onAddToCart={addToCart}
             />
 
             <MenuCard
@@ -111,6 +122,7 @@ function Menu() {
               name="Americano"
               description="Espresso combined with hot water."
               price="$2.50"
+              onAddToCart={addToCart}
             />
 
             <MenuCard
@@ -118,6 +130,7 @@ function Menu() {
               name="Caramel Macchiato"
               description="Espresso with steamed milk and sweet caramel."
               price="$4.00"
+              onAddToCart={addToCart}
             />
 
             <MenuCard
@@ -125,6 +138,7 @@ function Menu() {
               name="Coffee Frappe"
               description="Cold blended coffee with a creamy finish."
               price="$4.20"
+              onAddToCart={addToCart}
             />
 
           </div>
@@ -171,7 +185,23 @@ function Menu() {
 }
 
 
-function MenuCard({ image, name, description, price }) {
+/* ================= MENU CARD ================= */
+
+function MenuCard({
+  image,
+  name,
+  description,
+  price,
+  onAddToCart,
+}) {
+
+  const product = {
+    image,
+    name,
+    description,
+    price,
+  };
+
   return (
     <div className="flex h-full flex-col overflow-hidden rounded-2xl border border-[#EADCC8] bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg">
 
@@ -181,6 +211,7 @@ function MenuCard({ image, name, description, price }) {
         alt={name}
         className="h-52 w-full object-cover"
       />
+
 
       {/* Card Content */}
       <div className="flex flex-1 flex-col p-5">
@@ -205,9 +236,12 @@ function MenuCard({ image, name, description, price }) {
         </p>
 
 
-        {/* Button */}
-        <button className="mt-auto w-full rounded-lg bg-[#8B4A20] py-3 text-sm font-semibold text-white transition hover:bg-[#6F3816]">
-          Add to Order
+        {/* Add to Cart Button */}
+        <button
+          onClick={() => onAddToCart(product)}
+          className="mt-auto w-full rounded-lg bg-[#8B4A20] py-3 text-sm font-semibold text-white transition hover:bg-[#6F3816]"
+        >
+          Add to Cart
         </button>
 
       </div>
@@ -216,4 +250,6 @@ function MenuCard({ image, name, description, price }) {
   );
 }
 
+
 export default Menu;
+
