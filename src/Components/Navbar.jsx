@@ -38,6 +38,13 @@ function Navbar() {
         </Link>
 
         <Link
+    to="/order-confirmation"
+    className="text-gray-700 hover:text-[#8B4A20]"
+  >
+    Order Status
+  </Link>
+
+        <Link
           to="/contact"
           className="text-gray-700 hover:text-[#8B4A20]"
         >
