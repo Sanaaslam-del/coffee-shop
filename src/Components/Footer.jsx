@@ -13,7 +13,7 @@ function Footer() {
           <div>
 
             <h2 className="font-serif text-2xl font-bold">
-              ☕ Coffee Shop hello
+              ☕ Coffehsgsjgjs
             </h2>
 
             <p className="mt-4 max-w-xs text-sm leading-7 text-[#EADCC8]">
