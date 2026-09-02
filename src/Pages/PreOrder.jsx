@@ -1,7 +1,9 @@
 import { useState } from "react";
 import coffeeVideo from "../assets/video.mp4";
+import { useNavigate } from "react-router-dom";
 
 function PreOrder() {
+   const navigate = useNavigate();
   // Form data
   const [formData, setFormData] = useState({
     name: "",
@@ -40,9 +42,11 @@ function PreOrder() {
     const updatedOrders = [...oldOrders, newOrder];
 
     // Save in localStorage
-    localStorage.setItem("coffeeOrders", JSON.stringify(updatedOrders));
+    // localStorage.setItem("coffeeOrders", JSON.stringify(updatedOrders));
+    localStorage.setItem("order", JSON.stringify(newOrder));
 
     alert("Your pre-order has been placed successfully! ☕");
+    navigate("/orderconfirmation");
 
     // Clear form
     setFormData({

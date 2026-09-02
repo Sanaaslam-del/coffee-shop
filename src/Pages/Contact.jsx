@@ -1,4 +1,6 @@
 import { useState } from "react";
+import image from "../assets/image.png";
+import img1 from "../assets/img1.jpg";
 
 function Contact() {
 
@@ -54,11 +56,11 @@ function Contact() {
           {/* Image */}
           <div className="mt-12 w-full h-[340px] rounded-[3rem] overflow-hidden">
 
-            <img
-              src=""
-              alt="Cozy coffee shop"
-              className="w-full h-full object-cover"
-            />
+            <img 
+  src={image}
+  alt="Cozy coffee shop" 
+  className="w-full h-full object-cover" 
+/>
 
           </div>
 
@@ -176,10 +178,10 @@ function Contact() {
             <div className="lg:col-span-2 min-h-[500px] rounded-[3rem] overflow-hidden">
 
               <img
-                src="/img1.jpg"
-                alt="Barista preparing coffee"
-                className="w-full h-full object-cover"
-              />
+  src={img1}
+  alt="Barista preparing coffee"
+  className="w-full h-full object-cover"
+/>
 
             </div>
 
