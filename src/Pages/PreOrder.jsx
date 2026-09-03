@@ -1,9 +1,14 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import coffeeVideo from "../assets/video.mp4";
 import { useNavigate } from "react-router-dom";
+import { CartContext } from "../context/CartContext";
 
 function PreOrder() {
-   const navigate = useNavigate();
+  const navigate = useNavigate();
+
+  // CartContext se setOrder lena
+  const { setOrder } = useContext(CartContext);
+
   // Form data
   const [formData, setFormData] = useState({
     name: "",
@@ -29,23 +34,18 @@ function PreOrder() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Old orders get from localStorage
-    const oldOrders = JSON.parse(localStorage.getItem("coffeeOrders")) || [];
-
     // New order
     const newOrder = {
       ...formData,
       id: Date.now(),
     };
 
-    // Add new order
-    const updatedOrders = [...oldOrders, newOrder];
-
-    // Save in localStorage
-    // localStorage.setItem("coffeeOrders", JSON.stringify(updatedOrders));
-    localStorage.setItem("order", JSON.stringify(newOrder));
+    // Context + localStorage mein order save hoga
+    setOrder(newOrder);
 
     alert("Your pre-order has been placed successfully! ☕");
+
+    // Order Confirmation page
     navigate("/orderconfirmation");
 
     // Clear form
@@ -128,7 +128,9 @@ function PreOrder() {
               <div>
                 <p className="text-xs text-[#927D70]">Your favorite</p>
 
-                <p className="font-bold text-[#34251F]">Coffee, Your Way</p>
+                <p className="font-bold text-[#34251F]">
+                  Coffee, Your Way
+                </p>
               </div>
             </div>
           </div>
@@ -138,6 +140,7 @@ function PreOrder() {
       {/* ================= ORDER FORM ================= */}
       <section className="px-5 md:px-10 lg:px-20 py-20 bg-white">
         <div className="max-w-6xl mx-auto">
+
           {/* HEADING */}
           <div className="mb-12">
             <p className="text-[#A65D2A] uppercase tracking-[0.2em] text-sm font-bold">
@@ -161,9 +164,12 @@ function PreOrder() {
             onSubmit={handleSubmit}
             className="grid lg:grid-cols-[1fr_300px] gap-10"
           >
+
             {/* FORM CARD */}
             <div className="bg-[#FFF9EC] rounded-3xl p-6 md:p-10 border border-[#EBDDC6]">
+
               <div className="grid md:grid-cols-2 gap-6">
+
                 {/* NAME */}
                 <div>
                   <label className="block text-sm font-bold mb-2">
@@ -200,7 +206,9 @@ function PreOrder() {
 
                 {/* COFFEE */}
                 <div>
-                  <label className="block text-sm font-bold mb-2">Coffee</label>
+                  <label className="block text-sm font-bold mb-2">
+                    Coffee
+                  </label>
 
                   <select
                     name="coffee"
@@ -210,22 +218,19 @@ function PreOrder() {
                     className="w-full bg-white border border-[#E4D4BC] rounded-xl px-4 py-3.5 outline-none focus:border-[#A65D2A]"
                   >
                     <option value="">Select coffee</option>
-
                     <option value="Cappuccino">Cappuccino</option>
-
                     <option value="Latte">Latte</option>
-
                     <option value="Americano">Americano</option>
-
                     <option value="Espresso">Espresso</option>
-
                     <option value="Iced Coffee">Iced Coffee</option>
                   </select>
                 </div>
 
                 {/* SIZE */}
                 <div>
-                  <label className="block text-sm font-bold mb-2">Size</label>
+                  <label className="block text-sm font-bold mb-2">
+                    Size
+                  </label>
 
                   <select
                     name="size"
@@ -235,11 +240,8 @@ function PreOrder() {
                     className="w-full bg-white border border-[#E4D4BC] rounded-xl px-4 py-3.5 outline-none focus:border-[#A65D2A]"
                   >
                     <option value="">Select size</option>
-
                     <option value="Small">Small</option>
-
                     <option value="Medium">Medium</option>
-
                     <option value="Large">Large</option>
                   </select>
                 </div>
@@ -276,6 +278,7 @@ function PreOrder() {
                     className="w-full bg-white border border-[#E4D4BC] rounded-xl px-4 py-3.5 outline-none focus:border-[#A65D2A]"
                   />
                 </div>
+
               </div>
 
               {/* REQUEST */}
@@ -301,24 +304,31 @@ function PreOrder() {
               >
                 Place Pre-Order →
               </button>
+
             </div>
 
             {/* SIDE INFO */}
             <div className="space-y-5">
+
               <div className="bg-[#F4E5C9] rounded-3xl p-7">
+
                 <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-xl mb-5">
                   ☕
                 </div>
 
-                <h3 className="text-xl font-bold">Freshly Prepared</h3>
+                <h3 className="text-xl font-bold">
+                  Freshly Prepared
+                </h3>
 
                 <p className="text-sm text-[#756257] leading-6 mt-3">
                   Your coffee is prepared fresh according to your selected
                   pickup time.
                 </p>
+
               </div>
 
               <div className="bg-[#4B2B20] rounded-3xl p-7 text-white">
+
                 <div className="text-[#E7C58F] text-sm font-bold uppercase tracking-wider">
                   Quick & Easy
                 </div>
@@ -333,16 +343,22 @@ function PreOrder() {
                   Order ahead, arrive at your time and pick up your favorite
                   drink.
                 </p>
+
               </div>
+
             </div>
+
           </form>
         </div>
       </section>
 
       {/* ================= HOW IT WORKS ================= */}
       <section className="px-5 md:px-10 lg:px-20 py-20 bg-[#FFF9EC]">
+
         <div className="max-w-6xl mx-auto">
+
           <div className="text-center mb-14">
+
             <p className="text-[#A65D2A] text-sm uppercase tracking-[0.2em] font-bold">
               Simple Process
             </p>
@@ -350,62 +366,98 @@ function PreOrder() {
             <h2 className="text-4xl md:text-5xl font-bold mt-3">
               How It Works
             </h2>
+
           </div>
 
+
           <div className="grid md:grid-cols-3 gap-7">
+
             {/* CARD 1 */}
+
             <div className="bg-white rounded-3xl p-8 border border-[#EADDC8]">
+
               <div className="flex justify-between items-center">
+
                 <div className="w-14 h-14 rounded-2xl bg-[#F1DFC1] flex items-center justify-center text-xl">
                   ☕
                 </div>
 
-                <span className="text-5xl font-bold text-[#EBDCC5]">01</span>
+                <span className="text-5xl font-bold text-[#EBDCC5]">
+                  01
+                </span>
+
               </div>
 
-              <h3 className="text-xl font-bold mt-7">Choose Your Coffee</h3>
+              <h3 className="text-xl font-bold mt-7">
+                Choose Your Coffee
+              </h3>
 
               <p className="text-[#796960] text-sm leading-6 mt-3">
                 Pick your favorite drink and select the size you want.
               </p>
+
             </div>
 
+
             {/* CARD 2 */}
+
             <div className="bg-white rounded-3xl p-8 border border-[#EADDC8]">
+
               <div className="flex justify-between items-center">
+
                 <div className="w-14 h-14 rounded-2xl bg-[#F1DFC1] flex items-center justify-center text-xl">
                   🕐
                 </div>
 
-                <span className="text-5xl font-bold text-[#EBDCC5]">02</span>
+                <span className="text-5xl font-bold text-[#EBDCC5]">
+                  02
+                </span>
+
               </div>
 
-              <h3 className="text-xl font-bold mt-7">Select Pickup Time</h3>
+              <h3 className="text-xl font-bold mt-7">
+                Select Pickup Time
+              </h3>
 
               <p className="text-[#796960] text-sm leading-6 mt-3">
                 Choose the time that works best for you.
               </p>
+
             </div>
 
+
             {/* CARD 3 */}
+
             <div className="bg-white rounded-3xl p-8 border border-[#EADDC8]">
+
               <div className="flex justify-between items-center">
+
                 <div className="w-14 h-14 rounded-2xl bg-[#F1DFC1] flex items-center justify-center text-xl">
                   ✓
                 </div>
 
-                <span className="text-5xl font-bold text-[#EBDCC5]">03</span>
+                <span className="text-5xl font-bold text-[#EBDCC5]">
+                  03
+                </span>
+
               </div>
 
-              <h3 className="text-xl font-bold mt-7">Pick Up & Enjoy</h3>
+              <h3 className="text-xl font-bold mt-7">
+                Pick Up & Enjoy
+              </h3>
 
               <p className="text-[#796960] text-sm leading-6 mt-3">
                 Arrive at the café, collect your order and enjoy.
               </p>
+
             </div>
+
           </div>
+
         </div>
+
       </section>
+
     </div>
   );
 }
