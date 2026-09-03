@@ -108,13 +108,13 @@ function Home() {
                 </div>
 
               </div>
-
+{/* 
               <p className="mt-5 text-sm text-green-600">
-                ↑ 12.5%
+                
                 <span className="ml-2 text-[#6B5142]">
-                  from yesterday
+                  
                 </span>
-              </p>
+              </p> */}
 
             </div>
 
@@ -139,13 +139,13 @@ function Home() {
                 </div>
 
               </div>
-
+{/* 
               <p className="mt-5 text-sm text-green-600">
-                ↑ 8.4%
+                
                 <span className="ml-2 text-[#6B5142]">
-                  from yesterday
+                
                 </span>
-              </p>
+              </p> */}
 
             </div>
 
@@ -170,13 +170,13 @@ function Home() {
                 </div>
 
               </div>
-
+{/* 
               <p className="mt-5 text-sm text-green-600">
-                ↑ 15.7%
+              
                 <span className="ml-2 text-[#6B5142]">
-                  from yesterday
+                
                 </span>
-              </p>
+              </p> */}
 
             </div>
 
@@ -201,13 +201,13 @@ function Home() {
                 </div>
 
               </div>
-
+{/* 
               <p className="mt-5 text-sm text-green-600">
-                ↑ 10.3%
+             
                 <span className="ml-2 text-[#6B5142]">
-                  from yesterday
+                 
                 </span>
-              </p>
+              </p> */}
 
             </div>
 
