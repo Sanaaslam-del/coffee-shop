@@ -161,7 +161,7 @@ function Home() {
 
                 <div>
                   <h3 className="text-2xl font-bold">
-                    $2,450
+                    2,450
                   </h3>
 
                   <p className="text-sm text-[#6B5142]">
@@ -241,25 +241,25 @@ function Home() {
             <CoffeeCard
               image="/image1.png"
               name="Cappuccino"
-              price="$3.50"
+              price="350"
             />
 
             <CoffeeCard
               image="/image2.png"
               name="Iced Coffee"
-              price="$2.80"
+              price="280"
             />
 
             <CoffeeCard
               image="/image3.png"
               name="Mocha"
-              price="$3.60"
+              price="360"
             />
 
             <CoffeeCard
               image="/image4.png"
               name="Espresso"
-              price="$2.20"
+              price="220"
             />
 
           </div>

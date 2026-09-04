@@ -81,7 +81,7 @@ function Menu() {
               image="/cap.png"
               name="Cappuccino"
               description="Rich espresso with steamed milk and creamy foam."
-              price="$3.50"
+              price="350"
               onAddToCart={addToCart}
             />
 
@@ -89,7 +89,7 @@ function Menu() {
               image="/ice.png"
               name="Iced Coffee"
               description="Refreshing chilled coffee served over ice."
-              price="$2.80"
+              price="280"
               onAddToCart={addToCart}
             />
 
@@ -97,7 +97,7 @@ function Menu() {
               image="/moc.png"
               name="Mocha"
               description="Smooth espresso blended with chocolate and milk."
-              price="$3.60"
+              price="360"
               onAddToCart={addToCart}
             />
 
@@ -105,7 +105,7 @@ function Menu() {
               image="/espe.png"
               name="Espresso"
               description="Strong and rich classic Italian espresso."
-              price="$2.20"
+              price="220"
               onAddToCart={addToCart}
             />
 
@@ -113,7 +113,7 @@ function Menu() {
               image="/ca.png"
               name="Cafe Latte"
               description="Smooth espresso combined with steamed milk."
-              price="$3.20"
+              price="320"
               onAddToCart={addToCart}
             />
 
@@ -121,7 +121,7 @@ function Menu() {
               image="/am.png"
               name="Americano"
               description="Espresso combined with hot water."
-              price="$2.50"
+              price="250"
               onAddToCart={addToCart}
             />
 
@@ -129,7 +129,7 @@ function Menu() {
               image="/car.png"
               name="Caramel Macchiato"
               description="Espresso with steamed milk and sweet caramel."
-              price="$4.00"
+              price="400"
               onAddToCart={addToCart}
             />
 
@@ -137,7 +137,7 @@ function Menu() {
               image="/coffee.png"
               name="Coffee Frappe"
               description="Cold blended coffee with a creamy finish."
-              price="$4.20"
+              price="420"
               onAddToCart={addToCart}
             />
 
