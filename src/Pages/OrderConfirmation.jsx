@@ -1,7 +1,7 @@
 
 import { Link } from "react-router-dom";
 import coffeeVideo from "../assets/videoo.mp4";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { CartContext } from "../context/CartContext";
 
 function OrderConfirmation() {
@@ -21,6 +21,13 @@ function OrderConfirmation() {
   const [paymentMethod, setPaymentMethod] = useState("");
 
   // =========================
+  // Countdown States
+  // =========================
+
+  const [countdown, setCountdown] = useState(0);
+  const [confirmedOrder, setConfirmedOrder] = useState(false);
+
+  // =========================
   // Customized Order Prices
   // =========================
 
@@ -36,7 +43,7 @@ function OrderConfirmation() {
   // Customized Order
   // =========================
 
-  let quantity = 1;
+  let quantity = 0;
   let total = 0;
 
   if (order) {
@@ -48,15 +55,35 @@ function OrderConfirmation() {
   }
 
   // =========================
-  // Cart Total
+  // CART TOTAL
   // =========================
 
   const cartTotal = cart.reduce((sum, item) => {
     const price =
-      Number(String(item.price).replace("$", "")) || 0;
+      Number(
+        String(item.price)
+          .replace("$", "")
+          .replace("Rs.", "")
+          .replace("Rs", "")
+          .trim()
+      ) || 0;
 
     return sum + price;
   }, 0);
+
+  // =========================
+  // CART QUANTITY
+  // =========================
+
+  const cartQuantity = cart.length;
+
+  // =========================
+  // OVERALL TOTAL
+  // =========================
+
+  const completeQuantity = quantity + cartQuantity;
+
+  const completeTotal = total + cartTotal;
 
   // =========================
   // Buy Product
@@ -77,7 +104,51 @@ function OrderConfirmation() {
   };
 
   // =========================
-  // Confirm Complete Order
+  // START COUNTDOWN
+  // =========================
+
+  const startCountdown = () => {
+    // 15 Minutes
+    setCountdown(15 * 60);
+
+    setConfirmedOrder(true);
+  };
+
+  // =========================
+  // COUNTDOWN TIMER
+  // =========================
+
+  useEffect(() => {
+    if (!confirmedOrder || countdown <= 0) {
+      return;
+    }
+
+    const timer = setInterval(() => {
+      setCountdown((previous) => {
+        if (previous <= 1) {
+          clearInterval(timer);
+          return 0;
+        }
+
+        return previous - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [confirmedOrder, countdown]);
+
+  // =========================
+  // FORMAT TIMER
+  // =========================
+
+  const minutes = Math.floor(countdown / 60);
+  const seconds = countdown % 60;
+
+  const formattedMinutes = String(minutes).padStart(2, "0");
+  const formattedSeconds = String(seconds).padStart(2, "0");
+
+  // =========================
+  // CONFIRM COMPLETE ORDER
   // =========================
 
   const handleConfirmPayment = () => {
@@ -90,21 +161,15 @@ function OrderConfirmation() {
       `Payment Method: ${paymentMethod}\n\nYour complete order has been confirmed successfully! ☕`
     );
 
-    // Clear both orders
-    if (order) {
-      clearOrder();
-    }
-
-    if (cart.length > 0) {
-      clearCart();
-    }
+    // Start countdown
+    startCountdown();
 
     setBuyingProduct(null);
     setPaymentMethod("");
   };
 
   // =========================
-  // Complete Customized Order
+  // COMPLETE CUSTOMIZED ORDER
   // =========================
 
   const handleCompleteCustomized = () => {
@@ -116,15 +181,16 @@ function OrderConfirmation() {
       return;
     }
 
-    clearOrder();
-
     alert(
       "Your customized order has been completed successfully! ☕"
     );
+
+    // Start countdown
+    startCountdown();
   };
 
   // =========================
-  // Cancel Customized Order
+  // CANCEL CUSTOMIZED ORDER
   // =========================
 
   const handleCancelCustomized = () => {
@@ -134,7 +200,7 @@ function OrderConfirmation() {
   };
 
   // =========================
-  // Cancel Cart Item
+  // CANCEL CART ITEM
   // =========================
 
   const handleCancelCartItem = (product) => {
@@ -142,7 +208,7 @@ function OrderConfirmation() {
   };
 
   // =========================
-  // Cancel All Cart
+  // CANCEL ALL CART
   // =========================
 
   const handleCancelCart = () => {
@@ -155,7 +221,7 @@ function OrderConfirmation() {
   // NO ORDER
   // =========================
 
-  if (!order && cart.length === 0) {
+  if (!order && cart.length === 0 && !confirmedOrder) {
     return (
       <div className="min-h-[70vh] bg-[#FFF8E7] flex items-center justify-center px-5 py-16">
 
@@ -195,11 +261,188 @@ function OrderConfirmation() {
     <div className="bg-[#FFF8E7] text-[#3B2418]">
 
       {/* =================================================
+          COUNTDOWN SECTION
+      ================================================= */}
+
+      {confirmedOrder && (
+        <section className="px-5 md:px-10 lg:px-16 py-12">
+
+          <div className="max-w-6xl mx-auto">
+
+            <div className="bg-[#3B2418] rounded-[2.5rem] p-8 md:p-12 text-white overflow-hidden relative">
+
+              {/* Decorative Circles */}
+
+              <div className="absolute -right-20 -top-20 w-72 h-72 bg-[#8B4A20] rounded-full opacity-30"></div>
+
+              <div className="absolute -left-20 -bottom-20 w-64 h-64 bg-[#D9B982] rounded-full opacity-10"></div>
+
+
+              <div className="relative z-10">
+
+                {/* HEADER */}
+
+                <div className="text-center">
+
+                  <div className="inline-flex items-center gap-2 bg-[#D9B982] text-[#3B2418] px-5 py-2 rounded-full font-bold text-sm">
+                    ✓ Order Confirmed
+                  </div>
+
+                  <h2 className="text-3xl md:text-5xl font-bold mt-5">
+                    Your Coffee Is Being Prepared ☕
+                  </h2>
+
+                  <p className="text-[#F5EBDD] text-lg mt-3">
+                    Please wait while our barista prepares your fresh coffee.
+                  </p>
+
+                </div>
+
+
+                {/* =========================
+                    COUNTDOWN
+                ========================= */}
+
+                <div className="mt-10 flex justify-center">
+
+                  <div className="bg-white/10 backdrop-blur-sm border border-white/10 rounded-[2rem] px-8 md:px-14 py-8 text-center">
+
+                    <p className="text-[#D9B982] uppercase tracking-[0.25em] text-sm font-bold">
+                      {countdown > 0
+                        ? "Coffee Ready In"
+                        : "Order Ready"}
+                    </p>
+
+                    {countdown > 0 ? (
+
+                      <div className="text-6xl md:text-8xl font-bold mt-3 tracking-wider">
+                        {formattedMinutes}:{formattedSeconds}
+                      </div>
+
+                    ) : (
+
+                      <div className="text-5xl md:text-7xl font-bold mt-4 text-[#D9B982]">
+                        Ready! ☕
+                      </div>
+
+                    )}
+
+                    <p className="text-[#F5EBDD] mt-3">
+                      {countdown > 0
+                        ? "Our barista is making your order..."
+                        : "Your coffee is ready for pickup!"}
+                    </p>
+
+                  </div>
+
+                </div>
+
+
+                {/* =========================
+                    TOTAL INFORMATION
+                ========================= */}
+
+                <div className="grid md:grid-cols-2 gap-5 mt-8 max-w-3xl mx-auto">
+
+                  {/* TOTAL COFFEES */}
+
+                  <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center">
+
+                    <p className="text-[#D9B982] text-sm uppercase tracking-wider">
+                      Total Coffees
+                    </p>
+
+                    <p className="text-4xl font-bold mt-2">
+                      {completeQuantity}
+                    </p>
+
+                    <p className="text-[#F5EBDD] text-sm mt-1">
+                      Coffee Cups
+                    </p>
+
+                  </div>
+
+
+                  {/* OVERALL PRICE */}
+
+                  <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center">
+
+                    <p className="text-[#D9B982] text-sm uppercase tracking-wider">
+                      Overall Price
+                    </p>
+
+                    <p className="text-4xl font-bold mt-2">
+                      Rs. {completeTotal}
+                    </p>
+
+                    <p className="text-[#F5EBDD] text-sm mt-1">
+                      Place Order + All Cart Orders
+                    </p>
+
+                  </div>
+
+                </div>
+
+
+                {/* PRICE BREAKDOWN */}
+
+                <div className="max-w-3xl mx-auto mt-6 bg-white/5 rounded-2xl p-5">
+
+                  <div className="flex justify-between items-center py-2">
+
+                    <span className="text-[#F5EBDD]">
+                      Place Order
+                    </span>
+
+                    <span className="font-bold">
+                      Rs. {total}
+                    </span>
+
+                  </div>
+
+                  <div className="flex justify-between items-center py-2">
+
+                    <span className="text-[#F5EBDD]">
+                      All Cart Orders
+                    </span>
+
+                    <span className="font-bold">
+                      Rs. {cartTotal}
+                    </span>
+
+                  </div>
+
+                  <div className="border-t border-white/20 mt-2 pt-3 flex justify-between items-center">
+
+                    <span className="text-[#D9B982] font-bold">
+                      Overall Total
+                    </span>
+
+                    <span className="text-xl font-bold">
+                      Rs. {completeTotal}
+                    </span>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
+      )}
+
+
+      {/* =================================================
           CUSTOMIZED PLACE ORDER
       ================================================= */}
 
-      {order && (
+      {order && !confirmedOrder && (
         <>
+
           {/* HERO */}
 
           <section className="px-5 md:px-10 lg:px-16 py-10">
@@ -293,9 +536,7 @@ function OrderConfirmation() {
           </section>
 
 
-          {/* =================================================
-              ORDER DETAILS
-          ================================================= */}
+          {/* ORDER DETAILS */}
 
           <section className="px-5 md:px-10 lg:px-16 pb-16">
 
@@ -563,6 +804,7 @@ function OrderConfirmation() {
             </div>
 
           </section>
+
         </>
       )}
 
@@ -571,7 +813,7 @@ function OrderConfirmation() {
           CART ORDERS
       ================================================= */}
 
-      {cart.length > 0 && (
+      {cart.length > 0 && !confirmedOrder && (
 
         <section className="px-5 md:px-10 lg:px-16 pb-20">
 
@@ -596,9 +838,7 @@ function OrderConfirmation() {
               </div>
 
 
-              {/* =================================================
-                  CART ITEMS
-              ================================================= */}
+              {/* CART ITEMS */}
 
               <div className="mt-8 space-y-4">
 
@@ -637,9 +877,6 @@ function OrderConfirmation() {
                         {product.price}
                       </p>
 
-
-                      {/* BUY + CANCEL */}
-
                       <div className="flex flex-wrap justify-end gap-2 mt-3">
 
                         <button
@@ -670,7 +907,7 @@ function OrderConfirmation() {
 
 
               {/* =================================================
-                  COMBINED ORDER + PAYMENT
+                  CHECKOUT
               ================================================= */}
 
               {buyingProduct && (
@@ -686,13 +923,11 @@ function OrderConfirmation() {
                   </h2>
 
                   <p className="text-gray-600 mt-2">
-                    Your Place Order and Cart Order are included in one payment.
+                    Your Place Order and all Cart Orders are included in one payment.
                   </p>
 
 
-                  {/* =========================
-                      PLACE ORDER
-                  ========================= */}
+                  {/* PLACE ORDER */}
 
                   {order && (
 
@@ -739,9 +974,7 @@ function OrderConfirmation() {
                   )}
 
 
-                  {/* =========================
-                      BUY CART PRODUCT
-                  ========================= */}
+                  {/* BUY CART PRODUCT */}
 
                   <div className="mt-4 bg-white rounded-2xl p-6">
 
@@ -790,9 +1023,7 @@ function OrderConfirmation() {
                   </div>
 
 
-                  {/* =========================
-                      OTHER CART ITEMS
-                  ========================= */}
+                  {/* OTHER CART ITEMS */}
 
                   {cart.filter(
                     (product) => product !== buyingProduct
@@ -838,7 +1069,7 @@ function OrderConfirmation() {
 
 
                   {/* =================================================
-                      TOTAL
+                      OVERALL TOTAL
                   ================================================= */}
 
                   <div className="mt-6 bg-[#3B2418] rounded-2xl p-6 text-white">
@@ -852,7 +1083,7 @@ function OrderConfirmation() {
                         </p>
 
                         <p className="text-3xl font-bold mt-1">
-                          {quantity + cart.length} Coffee
+                          {completeQuantity} Coffee
                         </p>
 
                       </div>
@@ -860,15 +1091,15 @@ function OrderConfirmation() {
                       <div className="sm:text-right">
 
                         <p className="text-[#D9B982]">
-                          Total Amount
+                          Overall Total
                         </p>
 
                         <p className="text-3xl font-bold mt-1">
-                          Rs. {total} + {buyingProduct.price}
+                          Rs. {completeTotal}
                         </p>
 
                         <p className="text-[#F5EBDD] text-sm mt-2">
-                          Place Order + Cart Order
+                          Place Order + All Cart Orders
                         </p>
 
                       </div>
@@ -878,9 +1109,7 @@ function OrderConfirmation() {
                   </div>
 
 
-                  {/* =================================================
-                      PAYMENT METHOD
-                  ================================================= */}
+                  {/* PAYMENT METHOD */}
 
                   <div className="mt-7">
 
@@ -1017,9 +1246,7 @@ function OrderConfirmation() {
                   </div>
 
 
-                  {/* =================================================
-                      FINAL BUTTONS
-                  ================================================= */}
+                  {/* FINAL BUTTONS */}
 
                   <div className="flex flex-col sm:flex-row gap-4 mt-7">
 
@@ -1044,9 +1271,7 @@ function OrderConfirmation() {
               )}
 
 
-              {/* =================================================
-                  CART TOTAL
-              ================================================= */}
+              {/* CART TOTAL */}
 
               <div className="mt-8 bg-[#3B2418] rounded-2xl p-6 text-white flex flex-col md:flex-row md:items-center md:justify-between gap-5">
 
@@ -1069,7 +1294,7 @@ function OrderConfirmation() {
                   </p>
 
                   <p className="text-3xl font-bold mt-1">
-                    ${cartTotal.toFixed(2)}
+                    Rs. {cartTotal}
                   </p>
 
                 </div>
@@ -1077,9 +1302,7 @@ function OrderConfirmation() {
               </div>
 
 
-              {/* =================================================
-                  CART COMPLETE / CANCEL
-              ================================================= */}
+              {/* CART CANCEL */}
 
               {!buyingProduct && (
 
