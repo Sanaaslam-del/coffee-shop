@@ -19,7 +19,7 @@ function Home() {
             <h1 className="font-serif text-5xl font-bold leading-tight md:text-6xl">
               Coffee
               <span className="block text-[#8B4A20]">
-                Management System vite
+                Management System
               </span>
             </h1>
 
