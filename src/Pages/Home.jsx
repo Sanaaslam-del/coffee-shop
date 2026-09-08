@@ -19,7 +19,7 @@ function Home() {
             <h1 className="font-serif text-5xl font-bold leading-tight md:text-6xl">
               Coffee
               <span className="block text-[#8B4A20]">
-                Management System
+                Management System vite
               </span>
             </h1>
 
@@ -108,7 +108,7 @@ function Home() {
                 </div>
 
               </div>
-{/* 
+              {/* 
               <p className="mt-5 text-sm text-green-600">
                 
                 <span className="ml-2 text-[#6B5142]">
@@ -139,7 +139,7 @@ function Home() {
                 </div>
 
               </div>
-{/* 
+              {/* 
               <p className="mt-5 text-sm text-green-600">
                 
                 <span className="ml-2 text-[#6B5142]">
@@ -170,7 +170,7 @@ function Home() {
                 </div>
 
               </div>
-{/* 
+              {/* 
               <p className="mt-5 text-sm text-green-600">
               
                 <span className="ml-2 text-[#6B5142]">
@@ -201,7 +201,7 @@ function Home() {
                 </div>
 
               </div>
-{/* 
+              {/* 
               <p className="mt-5 text-sm text-green-600">
              
                 <span className="ml-2 text-[#6B5142]">
